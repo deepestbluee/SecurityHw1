@@ -40,7 +40,7 @@ int encrypt(unsigned char *plaintext, int plaintext_len, unsigned char *key,unsi
 int main(int argc, char* argv[])
 {
 
-	unsigned char * realkey = (unsigned char *) "key not found";
+	std::string realkey = "key not found";
     std::ifstream input("ciphertext",std::ios::binary );
     std::vector<unsigned char> ciphertext(std::istreambuf_iterator<char>(input), {});
 
@@ -59,7 +59,6 @@ int main(int argc, char* argv[])
 		{
 			std::getline(dict,line);
 		
-			unsigned char * result = const_cast<unsigned char *>( reinterpret_cast< const unsigned char*> (line.data()) );
 			unsigned char  key[16] = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
 			if(line.length() <=  16)
 			{
@@ -75,12 +74,10 @@ int main(int argc, char* argv[])
 				int ciphertext_len = 0;
 				unsigned char  ourCiphertext[32] = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
 
-					ciphertext_len = encrypt(plaintextCharP, plaintext.size(), key, iv, ourCiphertext);
-
-
+				ciphertext_len = encrypt(plaintextCharP, plaintext.size(), key, iv, ourCiphertext);
 
 				int state=1;
-				for (int i = 0; i < 32; ++i)
+				for (int i = 0; i < ciphertext.size(); ++i)
 				{
 					if(ourCiphertext[i] != ciphertextCharP[i])
 					{
@@ -90,9 +87,7 @@ int main(int argc, char* argv[])
 				}
 				if(state)
 				{
-					realkey = result;
-
-
+					realkey = line;
 					break;
 			 	}
 			
@@ -107,3 +102,4 @@ int main(int argc, char* argv[])
 
 }
 
+	
