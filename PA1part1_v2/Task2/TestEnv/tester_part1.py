@@ -4,7 +4,7 @@ import random
 import subprocess
 import string
 
-MAKE_CMD = "g++ cipher.cpp -o cipher -lcrypto -ldl -std=c++11"
+MAKE_CMD = "g++ -o out crypto.cpp -lcrypto -ldl"
 OPENSSL_CMD = "openssl enc -aes-128-cbc -nosalt -K {} -iv {} -in plaintext.txt -out ciphertext"
 IV = "00000000000000000000000000000000"
 FRM_STR = "{:^3s} {:^18s} => {:^18s}  {:s}"
